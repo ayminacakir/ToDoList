@@ -24,6 +24,15 @@ function App() {
     });
     setTodos(updatedTodos);
   };
+  const cancelTodo = (todoId) => {
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === todoId ? { ...todo, isCancelled: true } : todo
+      )
+    );
+  };
+
+
 
   const removeTodo = (todoId) => {
     setTodos([...todos.filter((todo) => todo.id !== todoId)]);
@@ -42,7 +51,7 @@ function App() {
         <hr />
 
         <ToDoCreate onCreateTodo={createTodo} />
-        <TodoList todos={todos} onRemoveTodo={removeTodo} onToggleComplete={toggleComplete} />
+        <TodoList todos={todos} onRemoveTodo={removeTodo} onToggleComplete={toggleComplete} onCancelTodo={cancelTodo} />
 
 
 

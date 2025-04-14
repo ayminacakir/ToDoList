@@ -18,7 +18,8 @@ function ToDoCreate({ onCreateTodo }) {
         if (!newTodo) return;
         const request = {
             id: Math.floor(Math.random() * 9999999999),
-            content: newTodo
+            content: newTodo,
+            isCancelled: false
         }
         onCreateTodo(request)
         clearInput();
