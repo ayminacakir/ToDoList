@@ -7,21 +7,27 @@ import { CheckOutlined } from '@ant-design/icons';
 import { CloseOutlined } from '@ant-design/icons';
 
 
-function ToDo({ todo, onRemoveTodo }) {
+function ToDo({ todo, onRemoveTodo, onToggleComplete }) {
 
-    const { id, content } = todo;
+    const { id, content, isCompleted } = todo;
 
     const removeTodo = () => {
         onRemoveTodo(id);
     }
+    const toggleComplete = () => {
+        onToggleComplete(id);
+    }
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid lightgrey', padding: '10px', marginTop: '10px' }}>
+        <div style={{
+            display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', border: '1px solid lightgrey', padding: '10px', marginTop: '10px', backgroundColor: isCompleted ? '#d4edda' : 'white', // yeşil ton
+
+        }}>
             <div>
                 {content}
             </div>
-            <div>
+            <div style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
                 <DeleteOutlined onClick={removeTodo} />
-                <CheckOutlined />
+                <CheckOutlined onClick={toggleComplete} />
                 <CloseOutlined />
 
             </div>
