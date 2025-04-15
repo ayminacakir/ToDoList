@@ -27,7 +27,7 @@ function App() {
   const cancelTodo = (todoId) => {
     setTodos(prev =>
       prev.map(todo =>
-        todo.id === todoId ? { ...todo, isCancelled: true } : todo
+        todo.id === todoId ? { ...todo, isCancelled: !todo.isCancelled } : todo
       )
     );
   };
