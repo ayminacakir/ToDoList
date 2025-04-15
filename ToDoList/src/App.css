@@ -14,20 +14,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 .todo-create {
   display: flex;
   flex-direction: row;
-  /* Değişiklik burada */
   align-items: center;
   justify-content: center;
   gap: 10px;
-  /* Aralarında boşluk */
   width: 100%;
 }
-
 
 .todo-input {
   flex: 1;
@@ -37,7 +33,6 @@
   border-bottom: 1px solid lightgrey;
   outline: none;
 }
-
 
 .todo-create-button {
   margin-top: 10px;
@@ -51,5 +46,4 @@
 
 .todo-icons {
   size: 20px;
-
 }

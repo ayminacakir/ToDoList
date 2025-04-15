@@ -1,20 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import ToDoCreate from './components/ToDoCreate'
-import TodoList from './components/TodoList'
-
-
+import { useState } from 'react';
+import './App.css';
+import ToDoCreate from './components/ToDoCreate';
+import TodoList from './components/TodoList';
 
 function App() {
-
   const [todos, setTodos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResultId, setSearchResultId] = useState(null);
 
   const createTodo = (newTodo) => {
     setTodos([...todos, { ...newTodo, isCompleted: false }]);
+    setSearchTerm('');
+    setSearchResultId(null);
+  };
 
-  }
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+
+    const match = todos.find(todo =>
+      todo.content.toLowerCase().includes(term.toLowerCase())
+    );
+
+    if (match) {
+      setSearchResultId(match.id);
+    } else {
+      setSearchResultId(null);
+    }
+  };
+
   const toggleComplete = (todoId) => {
     const updatedTodos = todos.map(todo => {
       if (todo.id === todoId) {
@@ -24,6 +37,7 @@ function App() {
     });
     setTodos(updatedTodos);
   };
+
   const cancelTodo = (todoId) => {
     setTodos(prev =>
       prev.map(todo =>
@@ -32,34 +46,36 @@ function App() {
     );
   };
 
-
-
   const removeTodo = (todoId) => {
     setTodos([...todos.filter((todo) => todo.id !== todoId)]);
+  };
+
+  const sortedTodos = [...todos];
+  if (searchResultId) {
+    const index = sortedTodos.findIndex(todo => todo.id === searchResultId);
+    if (index !== -1) {
+      const [foundTodo] = sortedTodos.splice(index, 1);
+      sortedTodos.unshift(foundTodo);
+    }
   }
 
-  console.log(todos);
-
-  /* childdan parenta props geçme yöntemi createTodo fonksiyonuna erişmek isteyen kişi onCreateTodo propsuyla buna erişebilir. */
   return (
-
     <div className='App'>
-      <div className='main' >
-
+      <div className='main'>
         <p>AYMİNA's TODO LIST</p>
         <hr />
         <hr />
-
-        <ToDoCreate onCreateTodo={createTodo} />
-        <TodoList todos={todos} onRemoveTodo={removeTodo} onToggleComplete={toggleComplete} onCancelTodo={cancelTodo} />
-
-
-
+        <ToDoCreate onCreateTodo={createTodo} onSearch={handleSearch} />
+        <TodoList
+          todos={sortedTodos}
+          onRemoveTodo={removeTodo}
+          onToggleComplete={toggleComplete}
+          onCancelTodo={cancelTodo}
+          searchResultId={searchResultId}
+        />
       </div>
     </div>
-
-  )
+  );
 }
 
-export default App
-
+export default App;
